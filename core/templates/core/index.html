@@ -1,0 +1,25 @@
+{%extends 'core/base.html'%}
+
+{% block title %}Index{% endblock %}
+
+{%block content%}
+<div class="mt-6 px-6 py-12 bg-violet-300 rounded-xl">
+<h2 class="mb-12 text-3xl text-center">Newest Videos</h2>
+    <div class="grid grid-cols-3 gap-3">
+        {%for video in videos%}
+        <div>
+            <a href="{%url 'video:detail' video.id %}">
+                <div class="transition duration-500 hover:scale-125 hover:bg-white-600 flex justify-center items-center rounded-xl">
+                  <video controls="controls" class="rounded-t-xl">
+                    <source src="{{ video.video.url }}" type="video/mp4"/>
+                  </video>
+                </div>
+                <div class="p-6 bg-white rounded-b-xl">
+                    <h2 class="text-2xl">{{video.name}}</h2>
+                </div>
+            </a>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+{%endblock%}

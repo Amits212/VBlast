@@ -1,0 +1,50 @@
+{%extends 'core/base.html'%}
+
+{%block content%}
+<div class="grid grid-cols-5 gap-6">
+  <div class="col-span-3">
+    <video controls="controls" class="mt-6 rounded-t-xl">
+        <source src="{{ video.video.url }}" type="video/mp4"/>
+    </video>
+  </div>
+  <div class="col-span-2 p-6 bg-gray-100 rounded-xl">
+    <h1 class="mb-6 text-3xl">{{video.name}}</h1>
+    <p class="text-gray-500"><strong>Category:</strong>{{video.category}}</p>
+    <p class="text-gray-500"><strong>Created by:</strong>{{video.created_by.username}}</p>
+    {%if video.description%}
+    <p class="text-gray-500"><strong>Description:</strong><br>
+            {{video.description}}</p>
+    {%endif%}
+      {%if request.user == video.created_by%}
+      <div class="mt-6 p-6 bg-white rounded-xl">
+          <p>Delete this video</p>
+          <a href="{%url 'video:edit' video.id%}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-violet-500 rounded-xl">Edit</a>
+          <a href="{%url 'video:delete' video.id%}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-red-500 rounded-xl">Delete</a>
+  </div>
+      {%else%}
+    <a href="#" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-violet-500 text-white">Contact Creator</a>
+  {%endif%}
+  </div>
+</div>
+<div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+<h2 class="mb-12 text-2xl text-center">Related videos</h2>
+    <div class="grid grid-cols-3 gap-3">
+        {%for video in related_videos%}
+        <div>
+            <a href="{%url 'video:detail' video.id%}">
+                <div>
+                <div class="transition duration-500 hover:scale-125 hover:bg-white-600 flex justify-center items-center rounded-xl">
+                  <video controls="controls" class="rounded-t-xl">
+                    <source src="{{ video.video.url }}" type="video/mp4"/>
+                  </video>
+                </div>
+                <div class="p-6 bg-white rounded-b-xl">
+                    <h2 class="text-2xl">{{video.name}}</h2>
+                </div>
+        </div>
+            </a>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+{%endblock%}
